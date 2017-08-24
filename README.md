@@ -1,2 +1,2 @@
-CS2102 Project
+Flashcard for language learning
 ==============
