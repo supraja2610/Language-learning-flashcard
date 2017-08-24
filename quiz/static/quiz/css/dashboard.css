@@ -1,0 +1,64 @@
+body {
+	background-image: url("http://i62.tinypic.com/2vn1ax2.jpg");
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size:cover;
+  	background-repeat: no-repeat;
+}
+
+#brand-logo {
+	background-image: url("http://i61.tinypic.com/54i1x5.png");
+	width: 100px;
+	height: 80px;
+	margin-right: 10px;
+}
+.navbar-link {
+	margin-top: 15px;
+	margin-left: 15px;
+	width: 150px;
+	text-align: left;
+}
+.glyph-style {
+	margin-left: 5px;
+}
+.search-glyph {
+	padding-top: 30px;
+	padding-left: 10px;
+}
+a {
+	text-decoration: none;
+}
+
+.padded-10 {
+	padding: 10px;
+}
+.set {
+	margin-left: 50px;
+	width: 200px;
+	height: 300px;
+	background-size: contain;
+	background-image: url("http://bgfons.com/upload/notebook_texture2458.jpg");
+	display: inline-block;
+	border: 1px solid;
+  	text-align: center;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: rgb(216, 216, 216);
+}
+
+.set h5 {
+	margin-top: -10px;
+}
+
+.set p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.row { 
+	height = 100%
+}
+
+}
+

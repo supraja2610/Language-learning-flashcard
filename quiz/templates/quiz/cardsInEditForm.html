@@ -1,0 +1,13 @@
+<div>
+  {% for card in cards %}
+    <div class="col-md-3">
+            <!-- <a href={% url 'quiz.views.edit_set_form' set.id %}>Edit</a> -->
+            <div class="set">
+              <a href={% url 'quiz.views.delete_card' card.id set.id %}><span class="glyphicon glyphicon-trash"></span></a>
+              <a href={% url 'quiz.views.edit_card_form' card.id set.id %}><span class="glyphicon glyphicon-edit"></span></a>
+              <p> Term: {{ card.term }}</p>
+              <p> Definition: {{ card.definition }}</p>
+            </div>
+    </div>
+  {% endfor %}
+</div>

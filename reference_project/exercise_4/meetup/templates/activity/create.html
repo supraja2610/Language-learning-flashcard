@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}Create Activity{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "meetup/css/activity.css" %}">
+    <script src="{% static "meetup/js/activity.js" %}"></script>
+{% endblock head %}
+
+{% block main %}
+    <div class="row">
+         <form class="col-xs-8 col-xs-offset-2 form-horizontal" action="{% url 'meetup:activity_create' group.id %}"
+         role="form" method="POST">
+            {% csrf_token %}
+
+            {% if next %}
+                <input type="hidden" name="next", value="{{ next }}"/>
+            {% endif %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-xs-3 control-label">{{ field.label }} {% if field.field.required %}*{% endif %}</label>
+                    <div class="col-xs-8">
+                        {{ field|add_class:'form-control'}}
+                    </div>
+                    {% if field.errors %}
+                        <p class="help-block col-xs-offset-3 col-xs-8">{{ field.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {% if error %}
+                <div class="form-group has-error">
+                    <p class="help-block col-xs-offset-3 col-xs-8 has-error">{{ error }}</p>
+                </div>
+            {% endif %}
+
+            {% include "activity/activity-flickr-snippet.html" %}
+
+            <div class="row">
+                <div class="col-xs-offset-3 col-xs-8">
+                    <button type="submit" class="btn btn-primary pull-right">Create Activity</button>
+                </div>
+            </div>
+         </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Home{% endblock title%}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "meetup/css/home.css" %}">
+{% endblock head %}
+
+{% block main %}
+    {% if user.is_anonymous %}
+        <div class="row">
+            <div class="jumbotron col-xs-10 col-xs-offset-1">
+                <h2 class="text-primary">
+                    Let's MeetUp
+                    <small class="glyphicon glyphicon-heart-empty"></small>
+                </h2>
+                <p>Want to find interesting people all around the world? Become a MeetUp member now.</p>
+                <p><a class="btn btn-primary" href="{% url 'meetup:user_create' %}">Get Started</a></p>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="jumbotron col-xs-10 col-xs-offset-1">
+                <h2 class="text-primary">
+                    Welcome{% if user.first_name %}, {{ user.first_name }}{% endif %}
+                    <small class="glyphicon glyphicon-heart-empty"></small>
+                </h2>
+                <p>Go to your dashboard now to discover the most updated group activities.</p>
+                <p><a class="btn btn-primary" href="{% url 'meetup:user_dashboard' %}">Go to Dashboard</a></p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock main %}

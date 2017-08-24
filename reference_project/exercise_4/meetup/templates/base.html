@@ -1,0 +1,111 @@
+{# For more information on Django template inheritance, #}
+{# see https://docs.djangoproject.com/en/1.6/topics/templates/#template-inheritance #}
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Let's MeetUp{% endblock title %} | MeetUp</title>
+
+    <link rel="icon" href="{% static "meetup/img/title-bar-icon.ico" %}" type="image/icon">
+
+    {# Import CSS files #}
+    <link rel="stylesheet" href="{% static "meetup/css/bootstrap-theme.min.css" %}">
+    <link rel="stylesheet" href="{% static "meetup/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "meetup/css/common.css" %}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="{% static "meetup/js/d3.min.js" %}"></script>
+    <script src="{% static "meetup/js/jquery.min.js" %}"></script>
+    <script src="{% static "meetup/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "meetup/js/common.js" %}"></script>
+    {# Allow templates to add stuff to the head. #}
+    {% block head %}{% endblock head%}
+</head>
+
+<body>
+    {% block header %}
+        <div id="header-wrapper">
+            <div class="container">
+                <div id="header" class="row">
+                    <div class="col-xs-3">
+                        <a href="{% url 'meetup:home' %}">
+                            <img id="logo" src="{% static "meetup/img/logo.png" %}" alt="Logo">
+                        </a>
+                    </div>
+                    <div id="nav" class="col-xs-9">
+                        <ul class="nav nav-pills pull-right">
+                            <li>
+                                <a href="{% url 'meetup:home' %}">Home</a>
+                            </li>
+                            {% if user.is_anonymous %}
+                                <li>
+                                    <a href="{% url 'meetup:user_create' %}">Get Started</a>
+                                </li>
+                                {% block inlineLoginForm %}
+                                    <li>
+                                        <form action="{% url 'meetup:user_login' %}" class="form-inline" role="form" method="POST">
+                                            <div class="form-group">
+                                                <label for="username" class="sr-only">Username</label>
+                                                <input type="text" class="form-control" id="username" maxlength="30" name="username" placeholder="Username">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password" class="sr-only">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                            </div>
+                                            {% csrf_token %}
+                                            <input type="hidden" name="next", value="{{ next }}"/>
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </form>
+                                    </li>
+                                {% endblock inlineLoginForm %}
+                            {% else %}
+                                <li>
+                                    <a href="{% url 'meetup:user_dashboard' %}">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'meetup:user_logout' %}">Sign Out</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock header %}
+
+    <div id="main-wrapper" class="container">
+        <div id="main">
+            {% block main %}
+                <h1>
+                    Main Content
+                    <br>
+                    <small>Replace this content by adding the block <code>main</code> to your template</small>
+                </h1>
+            {% endblock main %}
+        </div>
+        <div id="footer">
+            {% block footer %}
+                <div class="row">
+                    <p class="col-xs-1 col-xs-offset-4"><a href="{% url 'meetup:home' %}">MeetUp</a></p>
+                    <p class="col-xs-1"><a href="#">About</a></p>
+                    <p class="col-xs-1"><a href="#">Support</a></p>
+                    <p class="col-xs-1"><a href="#">Contact</a></p>
+                </div>
+                <div class="text-center">&copy Copyright 2014 MeetUp</div>
+                <div class="text-center" id="photo-credit"></div>
+            {% endblock footer %}
+        </div>
+    </div>
+</body>
+</html>

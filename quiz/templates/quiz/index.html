@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login to Quizlet Clone</title>
+
+    {# Loading CSS #}
+    <link href="{% static 'quiz/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'quiz/css/signin.css' %}" rel="stylesheet">
+    {# Loading JS #}
+    
+    <script src="{% static 'quiz/js/app.js' %}"></script>
+
+  </head>
+  <body>
+
+    <div class="container">
+      <h1> {{ state }} </h1>
+      <form id="sign-form" class="form-signin padded-top-10" onsubmit="return submitForm();" method="post">
+        {% csrf_token %}
+        <h2 class="form-signin-heading" id="linguistic-heading">Welcome to Linguistic</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input id="inputEmail" class="form-control" placeholder="Email address"  name="username" id="username"required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" class="form-control" name="password" placeholder="Password" id="password" required>
+        <div class="checkbox">
+          <label class="white-text">
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button value="signIn" id="signIn" class="btn btn-lg btn-primary btn-block" onclick="document.pressed=this.value" type="submit">Sign in</button>
+        <button  value="signUp" id="signUp" class="btn btn-lg btn-default btn-block" onclick="document.pressed=this.value" type="submit">Sign up</button>
+      </form>
+    </div> <!-- /container -->
+
+  </body>
+</html>
+

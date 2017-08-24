@@ -1,0 +1,28 @@
+/**
+ * This section contains  CSS rules for /group/view page
+ * with each rule prefixed by 'view-'
+ */
+#view-group-title {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.view-activity {
+    margin-bottom: 8px;
+}
+
+.list-group {
+    padding-right: 0;
+}
+
+.list-group a {
+    border: none;
+}
+
+.list-group a:nth-child(even) {
+    background-color: #DEDEDE;
+}
+
+.list-group a:hover {
+    background-color: #aeddf7;
+}

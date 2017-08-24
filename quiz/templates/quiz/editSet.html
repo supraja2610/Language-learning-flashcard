@@ -1,0 +1,64 @@
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Edit Set {{ set.name }}</title>
+
+    {# Loading CSS #}
+    <link href="{% static 'quiz/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'quiz/css/dashboard.css' %}" rel="stylesheet">
+    </style>
+    {# Loading JS #}
+        <script src="{% static 'quiz/js/jquery.min.js' %}"></script>
+        <script src="{% static 'quiz/js/bootstrap.min.js' %}"></script>
+   </head>
+   <body>
+   	{% include 'quiz/navbar.html' %}
+		<div class="container">
+			<!-- <h2 class="padded-10"> Welcome, {{ user }}</h2> -->
+			<form action="/editSet/" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+				    <label for="title">Title of Deck: </label>
+				    <input class="form-control" id="title" type="text" name="title" value = "{{ set.title}}">
+			    </div>
+			    
+			    <div class="form-group">
+				    <label for="description">Description of Deck: </label>
+				    <input class="form-control" id="description" type="text" name="description" value = "{{ set.description }}">
+				</div>
+			    
+				<div class="form-group">
+				    <label for="languageFrom">Language From: </label>
+				    <select class="form-control" name="languageFrom">
+				    	{% for language in languages %}
+						     <option value="{{ language.name }}" {% if language.name = set.language_from.name %} selected = "selected" {% endif %}>{{ language.name }}</option>
+						{% endfor %}
+  					</select>
+				</div>
+
+			    <div class="form-group">
+				    <label for="languageTo">Language To: </label>
+				    	<select class="form-control" name="languageTo">
+				    	{% for language in languages %}
+						    <option value="{{ language.name }}" {% if language.name = set.language_to.name %} selected = "selected" {% endif %}>{{ language.name }}</option>
+						{% endfor %}
+  						</select>
+				</div>
+				<div>					
+					<label for="cards">Cards: </label>
+					<a href={% url 'quiz.views.set_card_form' set.id %}>Add Card</a>
+				</div>
+				<input type='hidden' name='setId' value={{ set.id }} /></input>
+			    <input type="submit" value="Submit" class="btn btn-default">
+			</form>
+			{% include 'quiz/cardsInEditForm.html' %}
+		</div> <!-- Container ends here -->
+   </body>
+</html>

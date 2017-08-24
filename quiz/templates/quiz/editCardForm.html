@@ -1,0 +1,43 @@
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Edit Card Form</title>
+
+    {# Loading CSS #}
+    <link href="{% static 'quiz/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'quiz/css/dashboard.css' %}" rel="stylesheet">
+    </style>
+    {# Loading JS #}
+        <script src="{% static 'quiz/js/jquery.min.js' %}"></script>
+        <script src="{% static 'quiz/js/bootstrap.min.js' %}"></script>
+   </head>
+   <body>
+   	{% include 'quiz/navbar.html' %}
+		<div class="container">
+			<form action="/editCard/" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+				    <label for="term">Term: </label>
+				    <input id="term" type="text" name="term" value = "{{ card.term }}"></input>
+			    </div>
+			    
+			    <div class="form-group">
+				    <label for="definition">Definition: </label>
+				    <input id="definition" type="text" name="definition" value = "{{ card.definition }}"></input>
+				</div>
+        <div>
+          <input type='hidden' name='cardId' value={{ card.id }}></input>
+          <input type='hidden' name='setId' value={{ set.id }}></input>
+			  </div> 
+          <input type="submit" value="OK">
+			</form>
+		</div>
+   </body>
+</html>

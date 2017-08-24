@@ -1,0 +1,59 @@
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Create a new set</title>
+
+    {# Loading CSS #}
+    <link href="{% static 'quiz/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'quiz/css/dashboard.css' %}" rel="stylesheet">
+    </style>
+    {# Loading JS #}
+        <script src="{% static 'quiz/js/jquery.min.js' %}"></script>
+        <script src="{% static 'quiz/js/bootstrap.min.js' %}"></script>
+   </head>
+   <body>
+   	{% include 'quiz/navbar.html' %}
+		<div class="container">
+			<h2 class="padded-10"> Welcome, {{ user }}</h2>
+			<form action="/createSet/" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+				    <label for="title">Title of Deck: </label>
+				    <input id="title" type="text" name="title">
+			    </div>
+			    
+			    <div class="form-group">
+				    <label for="description">Description of Deck: </label>
+				    <input id="description" type="text" name="description">
+				</div>
+			    
+				<div class="form-group">
+				    <label for="languageFrom">Language From: </label>
+				    <select name="languageFrom">
+				    	{% for language in languages %}
+						    <option value="{{ language.name }}">{{ language.name }}</option>
+						{% endfor %}
+  					</select>
+				</div>
+
+			    <div class="form-group">
+				    <label for="languageTo">Language To: </label>
+				    	<select name="languageTo">
+				    	{% for language in languages %}
+						    <option value="{{ language.name }}">{{ language.name }}</option>
+						{% endfor %}
+  						</select>
+				</div>
+
+			    <input type="submit" value="OK">
+			</form>
+		</div>
+   </body>
+</html>

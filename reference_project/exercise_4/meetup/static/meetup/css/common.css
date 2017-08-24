@@ -1,0 +1,75 @@
+#header {
+    padding: 20px 0 10px;
+}
+
+#header-wrapper {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #FFFFFF;
+}
+
+#logo, #nav {
+    height: 50px;
+}
+
+#nav {
+    padding-top: 8px;
+}
+
+#header ul.nav li {
+    margin-left: 5px !important;
+}
+
+#header ul.nav a {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+#header ul.nav a:hover {
+    background-color: rgba(220, 220, 220, 0.5) !important;
+}
+
+#header #username, #header #password {
+    width: 110px;
+}
+
+body {
+    background: url(../img/background-0.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#main-wrapper {
+    min-width: 650px;
+    max-width: 900px;
+    margin-top: 115px;
+    margin-bottom: 50px;
+    padding: 7px;
+    border-radius: 5px;
+    background: rgba(214, 214, 214, 0.5) none;
+}
+
+#main {
+    min-height: 500px;
+    background: rgba(214, 214, 214, 0.7) none;
+    border: 1px #F5F5F5 solid;
+    border-bottom: 3px #62AAD6 solid;
+    border-radius: 5px;
+    padding: 50px 15px;
+}
+
+#footer {
+    padding: 15px 15px;
+    border: 1px #F5F5F5 solid;
+    border-top: none;
+    border-radius: 5px;
+    color: #F5F5F5;
+}
+
+.jumbotron {
+    background: none !important;
+}

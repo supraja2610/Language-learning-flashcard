@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}Twitter{% endblock title %}
+
+{% block main %}
+    {% if connected %}
+        <div class="row">
+            <div class="jumbotron col-xs-10 col-xs-offset-1">
+                <h2 class="text-primary">
+                    Congratulation{% if user.first_name %}, {{ user.first_name }}{% endif %}
+                    <small class="glyphicon glyphicon-heart-empty"></small>
+                </h2>
+                <p>You are now connected with your Twitter account.</p>
+                <p><a class="btn btn-primary" href="{% url 'meetup:user_dashboard' %}">Go to Dashboard</a></p>
+            </div>
+        </div>
+    {% elif disconnected %}
+        <div class="row">
+            <div class="jumbotron col-xs-10 col-xs-offset-1">
+                <h2 class="text-info">
+                    Thank You{% if user.first_name %}, {{ user.first_name }}{% endif %}
+                    <small class="glyphicon glyphicon-cloud"></small>
+                </h2>
+                <p>You are now disconnected from your Twitter account.</p>
+                <p><a class="btn btn-info" href="{% url 'meetup:user_dashboard' %}">Go to Dashboard</a></p>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="jumbotron col-xs-10 col-xs-offset-1">
+                <h2 class="text-danger">
+                    Sorry{% if user.first_name %}, {{ user.first_name }}{% endif %}
+                    <small class="glyphicon glyphicon-cloud"></small>
+                </h2>
+                <p>We encountered some problem in connecting to your Twitter account. Please try again.</p>
+                <p><a class="btn btn-danger" href="{% url 'meetup:user_dashboard' %}">Go to Dashboard</a></p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock main %}

@@ -1,0 +1,185 @@
+{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+{% block extrastyle %}{% endblock %}
+<style>
+    i/* DASHBOARD */
+
+    .header {
+        background-color:;
+    }
+
+    .dashboard .module table th {
+        width: 100%;
+    }
+
+    .dashboard .module table td {
+        white-space: nowrap;
+    }
+
+    .dashboard .module table td a {
+        display: block;
+            padding-right: .6em;
+        }
+
+        /* RECENT ACTIONS MODULE */
+
+        .module ul.actionlist {
+            margin-left: 0;
+        }
+
+        ul.actionlist li {
+            list-style-type: none;
+        }
+
+        ul.actionlist li {
+            overflow: hidden;
+                text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                }
+
+        body {
+    background-image: url("http://i62.tinypic.com/2vn1ax2.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size:cover;
+    background-repeat: no-repeat;
+}
+
+#brand-logo {
+    background-image: url("http://i61.tinypic.com/54i1x5.png");
+    width: 100px;
+    height: 80px;
+    margin-right: 10px;
+}
+.navbar-link {
+    margin-top: 15px;
+    margin-left: 15px;
+    width: 150px;
+    text-align: left;
+}
+.glyph-style {
+    margin-left: 5px;
+}
+.search-glyph {
+    padding-top: 30px;
+    padding-left: 10px;
+}
+a {
+    text-decoration: none;
+}
+
+.padded-10 {
+    padding: 10px;
+}
+.set {
+    margin-left: 50px;
+    width: 250px;
+    /*height: 180px;*/
+    background-size: contain;
+    background-image: url("http://bgfons.com/upload/notebook_texture2458.jpg");
+    display: inline-block;
+    border: 1px solid;
+    text-align: center;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: rgb(216, 216, 216);
+}
+
+.set h5 {
+    margin-top: -10px;
+}
+
+.set p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.row { 
+    height = 100%
+}
+
+}
+
+
+
+</style>
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";</script>
+{% block extrahead %}{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+<!-- Container -->
+<div id="container">
+
+    {% if not is_popup %}
+    <!-- Header -->
+    <div id="header" style="background-color: black">
+        <div id="branding">
+        {% block branding %}{% endblock %}
+        </div>
+        {% if user.is_active and user.is_staff %}
+        <div id="user-tools">
+            {% block welcome-msg %}
+                {% trans 'Welcome,' %}
+                <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            {% endblock %}
+            {% block userlinks %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+                {% endif %}
+                {% if user.has_usable_password %}
+                <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% endif %}
+                <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+            {% endblock %}
+        </div>
+        {% endif %}
+        {% block nav-global %}{% endblock %}
+    </div>
+    <!-- END Header -->
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    {% if title %} &rsaquo; {{ title }}{% endif %}
+    </div>
+    {% endblock %}
+    {% endif %}
+
+    {% block messages %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endblock messages %}
+
+    <!-- Content -->
+    <div id="content" class="{% block coltype %}colM{% endblock %}">
+        {% block pretitle %}{% endblock %}
+        {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+        {% block content %}
+        {% block object-tools %}{% endblock %}
+        {{ content }}
+        {% endblock %}
+        {% block sidebar %}{% endblock %}
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    {% block footer %}<div id="footer"></div>{% endblock %}
+</div>
+<!-- END Container -->
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Create a new card</title>
+
+    {# Loading CSS #}
+    <link href="{% static 'quiz/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'quiz/css/dashboard.css' %}" rel="stylesheet">
+    </style>
+    {# Loading JS #}
+        <script src="{% static 'quiz/js/jquery.min.js' %}"></script>
+        <script src="{% static 'quiz/js/bootstrap.min.js' %}"></script>
+   </head>
+   <body>
+   	{% include 'quiz/navbar.html' %}
+		<div class="container">
+			<form action="/createCard/" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+				    <label for="term">Term: </label>
+				    <input class="form-control" id="term" type="text" name="term">
+			    </div>
+			    
+			    <div class="form-group">
+				    <label for="definition">Definition: </label>
+				    <input class="form-control" id="definition" type="text" name="definition">
+				</div>
+			    <input type="submit" value="Submit" class="btn btn-default">
+			</form>
+		</div>
+   </body>
+</html>

@@ -1,0 +1,36 @@
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<!-- Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="navbar-brand" href={% url "quiz.views.return_to_dashboard" %} id="brand-logo"></a>
+</div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse"  id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+    <!-- <li class="active" class="navbar-link"><a href="#">Link<span class="sr-only">(current)</span></a></li> -->
+    <li><a href={% url "quiz.views.create_set_form" %} class="navbar-link">Create a Set <span class="glyphicon glyphicon-plus glyph-style"></span></a></li>
+  </ul>
+  <form class="navbar-form navbar-left" role="search"  action="/search/" method="POST">
+    {% csrf_token %}
+    <div class="input-group form-group navbar-link">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search "></i></button>
+            </div>
+        </div>
+  </form>
+  <!-- <a href="#"><span class="glyphicon glyphicon-search "></span></a> -->
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href={% url 'admin:index'  %} class="navbar-link">Edit Profile <span class="glyphicon glyphicon-edit glyph-style"></span></a></li>
+    <li><a href={% url 'quiz.views.index' %} class="navbar-link">Log Out <span class="glyphicon glyphicon-log-out glyph-style"></a></li>
+  </ul>
+</div><!-- /.navbar-collapse -->
+</div><!-- /.container-fluid -->
+</nav>

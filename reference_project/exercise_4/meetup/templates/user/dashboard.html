@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}{{ user.first_name }}'s Dashboard{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "meetup/css/user.css" %}">
+    <script src="{% static "meetup/js/user.js" %}"></script>
+{% endblock head %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-xs-3" id="dashboard-nav">
+            <ul class="nav nav-pills nav-stacked">
+                <li id="dashboard-nav-profile" class="active" data-view-id="dashboard-view-profile">
+                    <a href="#profile">Profile</a>
+                </li>
+                <li id="dashboard-nav-groups" data-view-id="dashboard-view-groups">
+                    <a href="#groups" >Groups</a>
+                </li>
+                <li id="dashboard-nav-activities" data-view-id="dashboard-view-activities">
+                    <a href="#activities">Upcoming Activities</a>
+                </li>
+                <li id="dashboard-nav-connect" data-view-id="dashboard-view-connect">
+                    <a href="#connect">Connect Account</a>
+                </li>
+            </ul>
+        </div>
+        <div id="dashboard-view" class="col-xs-9 col-offset-1">
+            <div id="dashboard-view-profile">
+                {% include "user/dashboard-view-title-snippet.html" with title="Profile" subtitle="View and manage your basic information" %}
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-10">
+                        <form action="{% url 'meetup:user_dashboard' %}" role="form" method="POST" class="form-horizontal">
+                            {% csrf_token %}
+
+                            {% if next %}
+                                <input type="hidden" name="next", value="{{ next }}"/>
+                            {% endif %}
+
+                            <div class="form-group">
+                                <label for="id_username" class="col-xs-4 col-xs-offset-1 control-label">Username</label>
+                                <div class="col-xs-6">
+                                    <input type="text" class="form-control" disabled value="{{ user.username }}">
+                                </div>
+                            </div>
+
+                            {% for field in userUpdateForm.visible_fields %}
+                                <div class="form-group {% if field.errors %}
+                                    has-error
+                                {% endif %}">
+                                    <label for="{{ field.id_for_label }}" class="col-xs-4 col-xs-offset-1 control-label">{{ field.label }} {% if field.field.required %}*{% endif %}</label>
+                                    <div class="col-xs-6">
+                                        {{ field|add_class:'form-control'}}
+                                    </div>
+                                    {% if field.errors %}
+                                        <p class="help-block col-xs-offset-5 col-xs-6">{{ field.errors.as_text }}</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+                            {% for field in userProfileUpdateForm.visible_fields %}
+                                <div class="form-group {% if field.errors %}
+                                    has-error
+                                {% endif %}">
+                                    <label for="{{ field.id_for_label }}" class="col-xs-4 col-xs-offset-1 control-label">{{ field.label }} {% if field.field.required %}*{% endif %}</label>
+                                    <div class="col-xs-6">
+                                        {{ field|add_class:'form-control'}}
+                                    </div>
+                                    {% if field.errors %}
+                                        <p class="help-block col-xs-offset-5 col-xs-6">{{ field.errors.as_text }}</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+                            {% if error %}
+                                <div class="form-group has-error">
+                                    <p class="help-block col-xs-offset-5 col-xs-6 has-error">{{ error }}</p>
+                                </div>
+                            {% endif %}
+
+                            <div class="row">
+                                <div class="col-xs-offset-5 col-xs-6">
+                                    <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="dashboard-view-groups">
+                {% include "user/dashboard-view-title-snippet.html" with title="Groups" subtitle="View and manage your MeetUp groups" %}
+                <div class="row">
+                    <h4 class="col-xs-offset-1 col-xs-10 text-primary">Groups Created</h4>
+                </div>
+                <div class="row">
+                    {% if groupsCreated %}
+                        <div class="col-xs-offset-2 col-xs-8 list-group">
+                            {% for group in groupsCreated %}
+                                {% if group.creator.id == user.id %}
+                                    <a href="{% url 'meetup:group_view' group.id %}" class="list-group-item"><span class="badge">{{ group.members.all|length }} member{{ group.members.all|length|pluralize }}</span>{{ group.name }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="col-xs-offset-1 col-xs-9 text-muted">You haven't created any group yet.</p>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <h4 class="col-xs-offset-1 col-xs-10 text-primary"><hr>Groups Joined</h4>
+                </div>
+                <div class="row">
+                   {% if groupsJoined %}
+                       <div class="col-xs-offset-2 col-xs-8 list-group">
+                           {% for group in groupsJoined %}
+                               <a href="{% url 'meetup:group_view' group.id %}" class="list-group-item">
+                                   <span class="badge">{{ group.members.all|length }} member{{ group.members.all|length|pluralize }}</span>
+                                   {{ group.name }}
+                               </a>
+                           {% endfor %}
+                       </div>
+                   {% else %}
+                       <p class="col-xs-offset-1 col-xs-9 text-muted">You haven't joined any other group yet.</p>
+                   {% endif %}
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-xs-offset-4 col-xs-4">
+                        <a href="{% url 'meetup:group_create' %}" class="btn btn-primary">Create a New Group</a>
+                    </div>
+                </div>
+            </div>
+            <div id="dashboard-view-activities">
+                {% include "user/dashboard-view-title-snippet.html" with title="Upcoming Activities" subtitle="Summary of your upcoming activities" %}
+            </div>
+            <div id="dashboard-view-connect">
+                {% include "user/dashboard-view-title-snippet.html" with title="Connect Account" subtitle="Connect your MeetUp account with Twitter, Facebook and more" %}
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-10 text-center">
+                        {% if user.get_profile.twitter_token %}
+                            <a href="{% url 'meetup:twitter_disconnect' %}" class="btn btn-danger">Disconnect from Twitter</a>
+                        {% else %}
+                            <a href="{% url 'meetup:twitter_request' %}" class="btn btn-primary">Connect to Twitter</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

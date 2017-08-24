@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}{{ group.name }}{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "meetup/css/group.css" %}">
+{% endblock head %}
+
+{% block main %}
+    <div class="row">
+        <h3 class="col-xs-offset-1 col-xs-10 dashboard-view-title text-primary" id="view-group-title">
+            {{group.name}}
+            <br>
+            <small>View and manage your MeetUp group</small>
+            <hr>
+        </h3>
+    </div>
+    <div class="row">
+        <h4 class="col-xs-offset-1 col-xs-10 text-primary">Owner</h4>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-8 list-group">
+            <a class="list-group-item">
+                {% if user.id == group.creator.id %}
+                    You are the Owner
+                {% else %}
+                    {{ group.creator }}
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <h4 class="col-xs-offset-1 col-xs-10 text-primary">Description</h4>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-8">
+            <p>{{group.description}}</p>
+            <p><b>This group was created on {{ group.created }}</b></p>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <h4 class="col-xs-offset-1 col-xs-10 text-primary">Members</h4>
+    </div>
+    {% if group.members.all %}
+        <div class="row">
+            <div class="col-xs-offset-2 col-xs-8 list-group">
+                {% for member in group.members.all %}
+                    <a class="list-group-item">
+                        {{ member.username }}
+                        {% if member.id == user.id %}
+                             (You)
+                        {% else %}
+                            {% if member.first_name %}
+                                ({{ member.first_name }})
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <p class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-offset-2 col-xs-8 list-group">
+                    <a class="list-group-item">This group has no member yet</a>
+                </div>
+            </p>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <h4 class="col-xs-offset-1 col-xs-10 text-primary">Activities</h4>
+    </div>
+    {% if group.activities.all %}
+        {% for activity in activities %}
+            <div class="row">
+                <div class="col-xs-offset-2 col-xs-8 list-group view-activity">
+                    <a href="{% url 'meetup:activity_view' group.id activity.id %}" class="list-group-item">
+                        <span class="badge">{{ activity.down_votes }} Down</span>
+                        <span class="badge">{{ activity.neutral_votes }} Neutral</span>
+                        <span class="badge">{{ activity.up_votes }} Up</span>
+                        {% if activity.definite %}
+                            <span class="badge">Definite</span>
+                        {% endif %}
+                        <span class="badge">{{ activity.start_date }}</span>
+                        {{ activity.name }}
+                    </a>
+                </div>
+            </div>
+            <div class="row view-activity">
+                <div class="col-xs-offset-2 col-xs-8 text-right ">
+                    <a class="btn-sm btn-default">My Vote</a>
+                    <a href="{% url 'meetup:vote' group.id activity.id 1 %}" class="btn-sm {% if activity.current_vote == 1 %}btn-success{% endif %}">Positive</a>
+                    <a href="{% url 'meetup:vote' group.id activity.id 0 %}" class="btn-sm {% if activity.current_vote == 0 %}btn-info{% endif %}">Neutral</a>
+                    <a href="{% url 'meetup:vote' group.id activity.id -1 %}" class="btn-sm {% if activity.current_vote == -1 %}btn-danger{% endif %}">Negative</a>
+                    {% if user.id == group.creator.id %}
+                        <a href="{% url 'meetup:activity_update' group.id activity.id %}" class="btn-sm btn-primary">Edit Activity</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <p class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-offset-2 col-xs-8 list-group">
+                    <a class="list-group-item">This group has no activity yet</a>
+                </div>
+            </p>
+        </div>
+    {% endif %}
+
+    {% if user.id == group.creator.id %}
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-xs-3 col-xs-offset-4 text-right">
+                <a href="{% url 'meetup:group_update' group.id %}" class="btn btn-primary">Edit Group</a>
+            </div>
+            <div class="col-xs-3 text-right">
+                <a href="{% url 'meetup:activity_create' group.id %}" class="btn btn-primary">Create an Activity</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

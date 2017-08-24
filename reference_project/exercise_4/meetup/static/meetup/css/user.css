@@ -1,0 +1,44 @@
+/**
+ * This section contains CSS rules common for /user/* pages
+ * with each rule prefixed by 'user-'
+ */
+.user-greeting {
+    margin-bottom: 40px;
+}
+
+/**
+ * This section contains  CSS rules for /user/login page
+ * with each rule prefixed by 'login-'
+ */
+
+
+/**
+ * This section contains CSS rules for /user/create page
+ * with each rule prefixed by 'create-'
+ */
+
+/**
+ * This section contains CSS rules for /user/dashboard page
+ * with each rule prefixed by 'dashboard-'
+ */
+#dashboard-nav {
+    min-height: 500px;
+    border-right: 2px dotted #909090;
+}
+
+.dashboard-view-title {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.list-group a {
+    border: none;
+}
+
+.list-group a:nth-child(even) {
+    background-color: #DEDEDE;
+}
+
+.list-group a:hover {
+    background-color: #aeddf7;
+}

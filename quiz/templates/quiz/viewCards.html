@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<html>
+<title> Viewing Cards in Set</title>
+{# Loading CSS #}
+    <link href="{% static 'quiz/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'quiz/css/dashboard.css' %}" rel="stylesheet">
+    </style>
+    {# Loading JS #}
+        <script src="{% static 'quiz/js/jquery.min.js' %}"></script>
+        <script src="{% static 'quiz/js/bootstrap.min.js' %}"></script>
+   </head>
+<body>
+	{% include 'quiz/navbar.html' %}
+	<!-- <div> -->
+  <div class="container">
+    <div class="row">
+	  {% for card in SetCards %}
+	    <div class="col-md-3">
+            <div class="set">
+              <p> Term: {{ card.term }}</p>
+              <p> Definition: {{ card.definition }}</p>
+            </div>
+    	</div>
+  {% endfor %}
+</div>
+</div>
+</body>
+</html>

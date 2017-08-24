@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}Get Started{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "meetup/css/user.css" %}">
+{% endblock head %}
+
+{% block main %}
+    {% if user.is_anonymous %}
+        <div class="row">
+            <h1 class="col-xs-6 col-xs-offset-3 text-center text-primary user-greeting">
+                Welcome to MeetUp
+                <small class="glyphicon glyphicon-heart-empty"></small>
+            </h1>
+        </div>
+
+        <div class="row">
+                <form class="col-xs-6 col-xs-offset-3 form-horizontal" action="{% url 'meetup:user_create' %}" role="form" method="POST">
+                    {% csrf_token %}
+
+                    {% if next %}
+                        <input type="hidden" name="next", value="{{ next }}"/>
+                    {% endif %}
+
+                    {% for field in form.visible_fields %}
+                        <div class="form-group {% if field.errors %}
+                            has-error
+                        {% endif %}">
+                            <label for="{{ field.id_for_label }}" class="col-xs-5 control-label">{{ field.label }} {% if field.field.required %}*{% endif %}</label>
+                            <div class="col-xs-6">
+                                {{ field|add_class:'form-control'}}
+                            </div>
+                            {% if field.errors %}
+                                <p class="help-block col-xs-offset-5 col-xs-6">{{ field.errors.as_text }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    {% if error %}
+                        <div class="form-group has-error">
+                            <p class="help-block col-xs-offset-5 col-xs-6 has-error">{{ error }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-xs-offset-5 col-xs-6">
+                            <button type="submit" class="btn btn-primary pull-right">Create Account</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="jumbotron col-xs-10 col-xs-offset-1">
+                <h2 class="text-primary user-greeting">
+                    Congratulations{% if user.first_name %}, {{ user.first_name }}{% endif %}
+                    <small class="glyphicon glyphicon-heart-empty"></small>
+                </h2>
+                <p>You just made a big jump to be a member of MeetUp. Go to your dashboard now.</p>
+                <p><a class="btn btn-primary" href="{% url 'meetup:user_dashboard' %}">Go to Dashboard</a></p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock main %}
